@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple LMS</title>
+  <style>
+    /* Basic page styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    header {
+      background: #0074D9;
+      color: #fff;
+      padding: 1em;
+      text-align: center;
+    }
+    main {
+      max-width: 600px;
+      margin: 2em auto;
+      background: #fff;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #0074D9;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 1em;
+      padding: 1em;
+      background: #e9ecef;
+      border-radius: 5px;
+    }
+    button {
+      background: #0074D9;
+      color: #fff;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header section -->
+  <header>
+    <h1>Simple Learning Management System</h1>
+  </header>
+  <main>
+    <!-- Course list section -->
+    <section>
+      <h2>Courses</h2>
+      <ul id="courseList">
+        <!-- Courses will be rendered here by JavaScript -->
+      </ul>
+    </section>
+  </main>
+  <script>
+    // Sample data: list of courses
+    const courses = [
+      { id: 1, title: "HTML Basics", completed: false },
+      { id: 2, title: "CSS Fundamentals", completed: false },
+      { id: 3, title: "JavaScript Introduction", completed: false }
+    ];
+
+    // Get the course list element
+    const courseList = document.getElementById('courseList');
+
+    // Function to render courses
+    function renderCourses() {
+      // Clear the list
+      courseList.innerHTML = '';
+      // Loop through courses and create list items
+      courses.forEach(course => {
+        const li = document.createElement('li');
+        // Add 'completed' class if course is completed
+        li.className = course.completed ? 'completed' : '';
+        li.innerHTML = `
+          ${course.title}
+          <button onclick="completeCourse(${course.id})" ${course.completed ? 'disabled' : ''}>
+            ${course.completed ? 'Completed' : 'Mark as Complete'}
+          </button>
+        `;
+        courseList.appendChild(li);
+      });
+    }
+
+    // Function to mark a course as completed
+    function completeCourse(id) {
+      // Find the course by id and set completed to true
+      const course = courses.find(c => c.id === id);
+      if (course) {
+        course.completed = true;
+        renderCourses(); // Re-render the list
+      }
+    }
+
+    // Initial render
+    renderCourses();
+
+    // Expose completeCourse to global scope for button onclick
+    window.completeCourse = completeCourse;
+  </script>
+</body>
+</html>
